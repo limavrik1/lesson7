@@ -8,8 +8,8 @@
  */
 
 mb_internal_encoding('UTF-8');
-error_reporting(E_ALL);
-ini_set('display_errors', true);
+//error_reporting(E_ALL);
+//ini_set('display_errors', true);
 //ini_set('html_errors', false);
 
 if (isset($_FILES['testFile'])) {
