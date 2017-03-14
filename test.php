@@ -7,8 +7,8 @@
  */
 require_once 'functions.php';
 
-error_reporting(E_ALL);
-ini_set('display_errors', true);
+//error_reporting(E_ALL);
+ini_set('display_errors', false);
 ini_set('html_errors', false);
 
 mb_internal_encoding('UTF-8');
@@ -53,7 +53,7 @@ if (!empty($_POST) && isset($_GET['id'])) {
             <div class="wrapper wrapper_title">
             <div class="content">
             <div class="test">
-                <h1>Результаты теста: <?= $title ?></h1>
+<!--                <h1>Результаты теста: --><?//= $title ?><!--</h1>-->
             </div>
             <div class="result">
             <?php
@@ -67,17 +67,16 @@ if (!empty($_POST) && isset($_GET['id'])) {
                 }
                 $dataID++;
             }
-        renderCertificate($resultScore);
-            echo '</br>';
-//            echo '<img src="data:image/png;base64,'.base64_encode(renderCertificate($resultScore)).'" />';
-            echo '<strong>Правильно: ' . $resultScore . " из $postCount </strong></br>";
+            echo '<img src="data:image/png;base64,'.base64_encode(renderCertificate($title,$_POST['fio'],$resultScore, $postCount)).'" />';
+//            echo '</br>';
+//            echo '<strong>Правильно: ' . $resultScore . " из $postCount </strong></br>";
 //            echo '<br/><a href="list.php">Назад к списку тестов</a>'; ?>
 
             <div class="file-upload btn btn-info">
                 <a href="list.php">Назад к списку тестов</a>
             </div>
+            <div class="footer"></div>
             <?php
-//            die (1);
         }
         ?>
         </div>

@@ -6,8 +6,12 @@
  * Time: 23:55
  */
 
-$host=$_SERVER['HTTP_HOST'];
+//error_reporting(E_ALL);
+//ini_set('display_errors', true);
+//ini_set('html_errors', true);
 
-if (isset($host)){
-    header("Location: http://$host/list.php", true, 301);
+$host = $_SERVER['HTTP_HOST'];
+$uri = $_SERVER['REQUEST_URI'];
+if (isset($host) && isset($uri)){
+    header("Location: http://".$host.$uri."list.php", true, 301);
 }
