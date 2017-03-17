@@ -6,10 +6,11 @@
  * Time: 17:50
  */
 
-//error_reporting(E_ALL);
-//ini_set('display_errors', true);
+error_reporting(E_ALL);
+ini_set('display_errors', true);
 
 mb_internal_encoding('UTF-8');
+
 ?>
 <!DOCTYPE html>
 <html lang="ru-RU">
@@ -42,14 +43,13 @@ mb_internal_encoding('UTF-8');
                 <h3>Список тестов:</h3>
                 <?php
                 if (!empty(glob("data/*.json"))) {
-//                    var_dump(glob("data/*.json"));
                     foreach (glob("data/*.json") as $filename) {
                         if ($contents = file_get_contents($filename)) {
                             $results = json_decode($contents, true);
                             if (array_key_exists('title', $results)) {
                                 ?>
                                 <li class="tests__list-item">
-                                    <a href="test.php?id=<?= $filename ?>" class="tests__list-link">
+                                    <a href="test.php?id=<?= pathinfo($filename)['filename'] ?>" class="tests__list-link">
                                         <i class="tests__list-icon fa fa-list"></i>
                                         <span class="tests__list-text">
                                         <?php echo $results['title']; ?>

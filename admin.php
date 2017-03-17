@@ -7,21 +7,24 @@
  * http://www.quirksmode.org/dom/inputfile.html
  */
 
+error_reporting(E_ALL);
+ini_set('display_errors', true);
+ini_set('html_errors', true);
+
+require_once 'functions.php';
+
 mb_internal_encoding('UTF-8');
-//error_reporting(E_ALL);
-//ini_set('display_errors', true);
-//ini_set('html_errors', false);
 
 if (isset($_FILES['testFile'])) {
-
     $tmp_files = $_FILES['testFile']['tmp_name'];
-    $fileName = 'data/' . $_FILES['testFile']['name'];
-    if (file_exists($fileName)) {
-        echo 'Пожалуйста, переименуйте файл. Такой файл существует';
-        die(0);
-    }
+//    $fileName = 'data/' . $_FILES['testFile']['name'];
+    $fileName =  incrementFileName( 'data/', 'json' );
+//    if (file_exists($fileName)) {
+//        echo 'Пожалуйста, переименуйте файл. Такой файл существует';
+//        die(0);
+//    }
     if (move_uploaded_file($tmp_files, $fileName)) {
-        echo 'Файл был загружен успешно.';
+        echo 'Файл загружен успешно.';
     } else {
         echo 'Возникли проблемы с сохранением загруженного файла';
     }
@@ -61,9 +64,9 @@ if (isset($_FILES['testFile'])) {
                     <input type="hidden" name="MAX_FILE_SIZE" value="1000000"/>
                     <div class="file-upload btn btn-info">
                         <span>Выбрать файл</span>
-                        <input name="testFile" class="testFile" type="file"/>
+                        <input name="testFile" class="testFile" type="file" accept="application/json"/>
                     </div>
-                    <input type="submit" value="Отправить" class="file-upload btn btn-info"/>
+                    <input type="submit" value="Отправить" class="file-upload btn btn-info" title="Максимальный размер 1 Мб" />
                 </form>
                 <div class="file-upload btn btn-info">
                     <a href="list.php">Перейти к списку тестов</a>

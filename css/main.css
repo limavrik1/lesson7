@@ -183,3 +183,6 @@ a {
 	height: 50px;
 }
  
+.upload__success {
+	text-decoration-color: green;
+}

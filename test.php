@@ -5,15 +5,16 @@
  * Date: 25.02.2017
  * Time: 21:03
  */
-require_once 'functions.php';
+error_reporting(E_ALL);
+ini_set('display_errors', true);
+ini_set('html_errors', true);
 
-//error_reporting(E_ALL);
-ini_set('display_errors', false);
-ini_set('html_errors', false);
+require_once 'functions.php';
 
 mb_internal_encoding('UTF-8');
 
 if (!empty($_POST) && isset($_GET['id'])) {
+
     $testId = filter_input(INPUT_GET, 'id');
     if ($testId !== NULL || $testId !== false) {
         if ($testContents = file_get_contents($testId)) {
@@ -92,7 +93,7 @@ if (!empty($_POST) && isset($_GET['id'])) {
     }
 
 } else {
-    $testId = filter_input(INPUT_GET, 'id');
+    $testId = 'data/'. filter_input(INPUT_GET, 'id') .'.json';
     $filesList = glob("data/*.json");
     if ($testId !== NULL && $testId !== false && in_array($testId, $filesList, true) !== false) {
         if ($testContents = file_get_contents($testId)) {
@@ -171,11 +172,11 @@ if (!empty($_POST) && isset($_GET['id'])) {
             <?php
         }
     } else {
-        header('HTTP/1.1 404 Not Found'); //This may be put inside err.php instead
+//        header('HTTP/1.1 404 Not Found'); //This may be put inside err.php instead
         $_GET['e'] = 404; //Set the variable for the error code (you cannot have a
-        // querystring in an include directive).
         include '404.php';
-        exit; //Do not do any more work in this script.
+//        http_response_code(404);
+        exit;
     }
 }
 ?>

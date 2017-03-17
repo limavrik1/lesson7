@@ -6,7 +6,21 @@
  * Time: 15:58
  */
 
-//ini_set('display_errors', false);
+//error_reporting(E_ALL);
+//ini_set('display_errors', true);
+//ini_set('html_errors', true);
+
+function incrementFileName($filePath,$fileExt) {
+    if(count(glob($filePath.'*'.$fileExt)) > 0) {
+
+        $newFileName = $filePath . count(glob($filePath.'*.'.$fileExt)).'.'.$fileExt;
+        return $newFileName;
+    }
+    else
+    {
+        return $filePath .'0.'. $fileExt;
+    }
+}
 
 function renderCertificate($testName,$fio,$result,$total)
 {
@@ -26,17 +40,12 @@ function renderCertificate($testName,$fio,$result,$total)
     imagettftext($im, 25, 0, 180, 515, $textColor, $fontFile, $testName);
     imagettftext($im, 30, 0, 290, 625, $textColor, $fontFile, 'Результат');
     imagettftext($im, 25, 0, 340, 685, $textColor, $fontFile, $result .' из '. $total );
-//    imagettftext($im, 25, 0, 150, 300, $textColor, $fontFile, $total);
-//    imagepng($im,"file.png");
-//    var_dump($imBox);
-//    echo '</br>';
-
     ob_start();
     imagepng($im);
     $image = ob_get_contents();
-//    var_dump($image);
     ob_end_clean();
 //    echo '<img src="data:image/png;base64,'.base64_encode($image).'" />';
     imagedestroy($im);
     return $image;
 }
+
