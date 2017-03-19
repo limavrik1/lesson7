@@ -13,15 +13,16 @@ require_once 'functions.php';
 
 mb_internal_encoding('UTF-8');
 
+$testId = 'data/'. filter_input(INPUT_GET, 'id') .'.json';
+
 if (!empty($_POST) && isset($_GET['id'])) {
 
-    $testId = filter_input(INPUT_GET, 'id');
     if ($testId !== NULL || $testId !== false) {
         if ($testContents = file_get_contents($testId)) {
             $results = json_decode($testContents, true);
             $title = $results['title'];
             $questionCount = count($results['data']);
-            $postCount = count($_POST);
+
             $inputValueCount = array();
 
             for ($i = 0; $i < $questionCount; $i++) {
@@ -61,14 +62,15 @@ if (!empty($_POST) && isset($_GET['id'])) {
             $resultScore = 0;
             $dataID = 0;
             foreach ($_POST as $questionKey => $questionValue) {
+                if ($questionKey !== 'fio'){
                 for ($id = 0; $id < $inputValueCount[$dataID]; $id++) {
                     if ($questionValue === $results['data'][$dataID]['inputValue'][$id]) {
                         $resultScore += $results['data'][$dataID]['inputValueScore'][$id];
                     }
-                }
+                }}
                 $dataID++;
             }
-            echo '<img src="data:image/png;base64,'.base64_encode(renderCertificate($title,$_POST['fio'],$resultScore, $postCount)).'" />';
+            echo '<img src="data:image/png;base64,'.base64_encode(renderCertificate($title,$_POST['fio'],$resultScore, $questionCount)).'" />';
 //            echo '</br>';
 //            echo '<strong>Правильно: ' . $resultScore . " из $postCount </strong></br>";
 //            echo '<br/><a href="list.php">Назад к списку тестов</a>'; ?>
@@ -93,7 +95,6 @@ if (!empty($_POST) && isset($_GET['id'])) {
     }
 
 } else {
-    $testId = 'data/'. filter_input(INPUT_GET, 'id') .'.json';
     $filesList = glob("data/*.json");
     if ($testId !== NULL && $testId !== false && in_array($testId, $filesList, true) !== false) {
         if ($testContents = file_get_contents($testId)) {
